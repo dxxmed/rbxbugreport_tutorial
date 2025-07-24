@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: hello
+    runtime: node
+    plan: free
+    previews:
+      generation: manual
+    buildCommand: npm install
+    startCommand: npm start
+    region: oregon
+    autoDeployTrigger: commit
+    domains:
+      -  https://rbxbugreport-tutorial.onrender.com
+    healthCheckPath: ./health-check
+    
