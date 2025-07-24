@@ -12,4 +12,3 @@ services:
     domains:
       -  https://rbxbugreport-tutorial.onrender.com
     healthCheckPath: ./health-check
-    
