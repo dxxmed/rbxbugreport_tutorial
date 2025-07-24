@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: hello
+    name: roblox_bug_report_tutorial
     runtime: node
     plan: free
     previews:
