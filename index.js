@@ -3,11 +3,14 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Product from "./Models/bugreports.js";
 
-dotenv.config();
+dotenv.config()
 
 const PORT = process.env.PORT;
 const URI = process.env.URI;
 const HOST = "0.0.0.0";
+
+console.log("THIS IS THE URI!")
+console.log(URI);
 
 const Server = http.createServer(async (req, res) => {
   if (req.method === "GET") {
