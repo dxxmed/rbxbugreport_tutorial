@@ -7,6 +7,7 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 const URI = process.env.URI;
+const HOST = "0.0.0.0";
 
 const Server = http.createServer(async (req, res) => {
   if (req.method === "GET") {
@@ -60,7 +61,7 @@ const Server = http.createServer(async (req, res) => {
 mongoose.set("strictQuery", false);
 
 mongoose.connect(URI).then(() => {
-  Server.listen(PORT, () => {
+  Server.listen(PORT, HOST, () => {
     console.log(`Listening on PORT ${PORT}!`);
   })
 }).catch(err => {
