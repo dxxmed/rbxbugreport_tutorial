@@ -5,7 +5,7 @@ import Product from "./Models/bugreports.js";
 
 dotenv.config();
 
-const PORT = 5000;
+const PORT = process.env.PORT;
 const URI = process.env.URI;
 
 const Server = http.createServer(async (req, res) => {
