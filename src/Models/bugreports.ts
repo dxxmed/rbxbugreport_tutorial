@@ -24,7 +24,6 @@ export type ProductSchema = {
     type: {
       Repo_Steps: string,
       Addtl_Information: string,
-      Vulnerability_Scale: number,
     },
     required: [false],
   },
