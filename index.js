@@ -42,7 +42,7 @@ const Server = http.createServer(async (req, res) => {
           console.log(err);
           res.writeHead(500, {"Content-Type": "application/json"});
           res.end(JSON.stringify({
-            message: "Database Error!",
+            message: "Database Error! Couldn't fetch all products",
           }));
         }
     }
@@ -74,7 +74,7 @@ const Server = http.createServer(async (req, res) => {
         } catch(err) {
         res.writeHead(404, {"Content-Type": "application/json"});
         res.end(JSON.stringify({
-          message: "Product to delete was NOT FOUND!",
+          message: "Product to delete was NOT FOUND or there was a database error!",
         }));
       }
     }
@@ -82,7 +82,7 @@ const Server = http.createServer(async (req, res) => {
   }
   res.writeHead(404, {"Content-Type": "application/json"});
   res.end(JSON.stringify({
-    message: "Server error. That's all we know.",
+    message: "Server error",
   }));
 });
 
