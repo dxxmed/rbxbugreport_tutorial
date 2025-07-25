@@ -80,12 +80,12 @@ const Server = http.createServer(async (req, res) => {
   }
 });
 
-mongoose.set("strictQuery", false);
+//mongoose.set("strictQuery", false);
 
-mongoose.connect(URI).then(() => {
+//mongoose.connect(URI).then(() => {
   Server.listen(PORT, HOST, () => {
     console.log(`Listening on PORT ${PORT}!`);
   })
-}).catch(err => {
-  console.log(err);
-});
+//}).catch(err => {
+  //console.log(err);
+//});
