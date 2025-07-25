@@ -30,7 +30,6 @@ function getBody(req) {
 };
 
 const Server = http.createServer(async (req, res) => {
-  const Body = await getBody(req);
   if (req.method === "GET") {
     if (req.url === "/") {
       res.writeHead(200, {"Content-Type": "text/plain"});
@@ -51,6 +50,7 @@ const Server = http.createServer(async (req, res) => {
   } else if (req.method === "POST") {
       if (req.url === "/bugreports") {
         try {
+          const Body = getBody(req);
           const NewProduct = await Product.create(Body);
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(NewProduct));
