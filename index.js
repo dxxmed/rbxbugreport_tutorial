@@ -47,6 +47,7 @@ const Server = http.createServer(async (req, res) => {
           }));
         }
     }
+    return;
   } else if (req.method === "POST") {
       if (req.url === "/bugreports") {
         try {
@@ -62,6 +63,7 @@ const Server = http.createServer(async (req, res) => {
             }));
         }
       }
+      return;
   } else if (req.method === "DELETE") {
       if (req.url === "/bugreports") {
         try {
@@ -77,15 +79,20 @@ const Server = http.createServer(async (req, res) => {
         }));
       }
     }
+    return;
   }
+  res.writeHead(404, {"Content-Type": "application/json"});
+  res.end(JSON.stringify({
+    message: "Server error. That's all we know.",
+  }));
 });
 
-//mongoose.set("strictQuery", false);
+mongoose.set("strictQuery", false);
 
-//mongoose.connect(URI).then(() => {
+mongoose.connect(URI).then(() => {
   Server.listen(PORT, HOST, () => {
     console.log(`Listening on PORT ${PORT}!`);
   })
-//}).catch(err => {
-  //console.log(err);
-//});
+}).catch(err => {
+  console.log(err);
+});
