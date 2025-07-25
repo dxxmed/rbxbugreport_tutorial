@@ -11,4 +11,3 @@ services:
     autoDeployTrigger: commit
     domains:
       -  https://rbxbugreport-tutorial.onrender.com
-    healthCheckPath: ./health-check
