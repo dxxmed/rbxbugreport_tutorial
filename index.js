@@ -58,7 +58,7 @@ const Server = http.createServer(async (req, res) => {
             console.log(err);
             res.writeHead(500, {"Content-Type": "application/json"});
             res.end(JSON.stringify({
-                message: "Database Error!",
+                message: "Database Error! The format is {\"title\": string, \"description\": string}!",
             }));
         }
       }
