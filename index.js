@@ -5,7 +5,7 @@ import Product from "./Models/bugreports.js";
 
 dotenv.config()
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const URI = process.env.URI;
 const HOST = "0.0.0.0";
 
