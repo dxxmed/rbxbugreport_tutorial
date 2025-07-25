@@ -12,7 +12,25 @@ const HOST = "0.0.0.0";
 console.log("THIS IS THE URI!")
 console.log(URI);
 
+function getBody(req) {
+  return new Promise((resolve, reject) => {
+    let Body = "";
+    req.on("data", (chunk) => {
+      Body += chunk;
+    });
+    req.on("end", () => {
+      try {
+        resolve(JSON.parse(Body));
+      } catch(err) {
+        reject(err);
+      }
+    });
+    req.on("error", reject);
+  });
+};
+
 const Server = http.createServer(async (req, res) => {
+  const Body = await getBody(req);
   if (req.method === "GET") {
     if (req.url === "/") {
       res.writeHead(200, {"Content-Type": "text/plain"});
@@ -33,7 +51,7 @@ const Server = http.createServer(async (req, res) => {
   } else if (req.method === "POST") {
       if (req.url === "/bugreports") {
         try {
-          const NewProduct = await Product.create(req.body);
+          const NewProduct = await Product.create(Body);
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(NewProduct));
         } catch(err) {
@@ -47,7 +65,8 @@ const Server = http.createServer(async (req, res) => {
   } else if (req.method === "DELETE") {
       if (req.url === "/bugreports") {
         try {
-          const { IdToDelete } = req.params;
+          const ParsedURL = new URL(req.url, `https://${req.headers.host}`);
+          const IdToDelete = ParsedURL.searchParams.get("id");
           const ProductToDelete = await Product.findByIdAndDelete(IdToDelete);
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(ProductToDelete));
