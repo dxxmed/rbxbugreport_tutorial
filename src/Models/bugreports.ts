@@ -1,4 +1,4 @@
-import mongoose, { Model, Models, Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
 export type ProductSchema = {
   Title: {

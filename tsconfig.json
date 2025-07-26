@@ -1,17 +1,12 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "node16",
     "target": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-    "outDir": "dist",
-    "strict": true,
-  },
-  "ts-node": {
-    "esm": true,
-  },
-  "include": ["src/**/*"],
+    "noEmit": false,
+    "sourceMap": true,
+    "outDir": "dist"
+  }
 }

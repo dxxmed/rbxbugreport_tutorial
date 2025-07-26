@@ -1,15 +1,15 @@
 import http from "http";
 import dotenv from "dotenv";
-import mongoose, { mongo } from "mongoose";
-import Product, { ProductSchema } from "./Models/bugreports.ts";
+import mongoose from "mongoose";
+import Product, { ProductSchema } from "./Models/bugreports.js";
 
 dotenv.config()
 
-const PORT: string | number = process.env.PORT || 5000;
-const URI: string = process.env.URI as string;
+const PORT = process.env.PORT || 5000;
+const URI = process.env.URI as string || "mongodb+srv://Owner:imadethe78thadminrole@firstcluster.8dib9ss.mongodb.net/BugReports?retryWrites=true&w=majority&appName=FirstCluster";
 
 function getBody(req: http.IncomingMessage): any | void {
-  return new Promise((resolve: (value: any) => void, reject: (reason: any) => void): Promise<any> | void => {
+  return new Promise((resolve, reject) => {
     let Body = "";
     req.on("data", (chunk: any) => {
       Body += chunk;
@@ -25,7 +25,7 @@ function getBody(req: http.IncomingMessage): any | void {
   });
 };
 
-const Server: http.Server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage>): Promise<void> => {
+const Server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage>) => {
   if (req.method === "GET") {
     if (req.url === "/") {
       res.writeHead(200, {"Content-Type": "text/plain"});
@@ -39,39 +39,49 @@ const Server: http.Server = http.createServer(async (req: http.IncomingMessage, 
           console.log(err);
           res.writeHead(500, {"Content-Type": "application/json"});
           res.end(JSON.stringify({
-            message: "Database Error! Couldn't fetch all products",
+            message: `Database Error! Couldn't fetch products. ${err}`,
           }));
         }
     }
     return;
   } else if (req.method === "POST") {
-      if (req.url === "/bugreports") {
+      if (req.url.match(/\/bugreports\/(\w+)/)) {
         try {
           const Body: any | void = await getBody(req);
           const NewProduct: ProductSchema = await Product.create(Body);
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(NewProduct));
-        } catch(err: any) {
+        } catch(err) {
             console.log(err);
             res.writeHead(500, {"Content-Type": "application/json"});
             res.end(JSON.stringify({
-                message: "Database Error! The format is {\"Title\": string, \"Description\": string, etc}!",
+                message: `Database error! ${err}`,
             }));
         }
       }
       return;
   } else if (req.method === "DELETE") {
-      if (req.url === "/bugreports") {
+      if (req.url.match(/\/bugreports\/(\w+)/)) {
         try {
-          const ParsedURL: URL = new URL(req.url, `https://${req.headers.host}`);
-          const IdToDelete: string | null = ParsedURL.searchParams.get("id");
+          const IdToDelete = req.url.split("/")[2];
           const ProductToDelete: ProductSchema | null = await Product.findByIdAndDelete(IdToDelete);
+
+          console.log(`ID that's been deleted: ${IdToDelete}`);
+
+          if (!ProductToDelete) {
+            res.writeHead(404, {"Content-Type": "application/json"});
+            res.end(JSON.stringify({
+              message: "Product to delete doesn't exist!",
+            }));
+            return;
+          }
+
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(ProductToDelete));
-        } catch(err: any) {
-        res.writeHead(404, {"Content-Type": "application/json"});
+        } catch(err) {
+        res.writeHead(500, {"Content-Type": "application/json"});
         res.end(JSON.stringify({
-          message: "Product to delete was NOT FOUND or there was a database error!",
+          message: `Database error! ${err}`,
         }));
       }
     }
@@ -79,7 +89,7 @@ const Server: http.Server = http.createServer(async (req: http.IncomingMessage, 
   }
   res.writeHead(404, {"Content-Type": "application/json"});
   res.end(JSON.stringify({
-    message: "Server error",
+    message: "Route not found!",
   }));
 });
 
@@ -89,8 +99,8 @@ mongoose.connect(URI).then(() => {
   Server.listen(PORT, (): void => {
     console.log(`Listening on PORT ${PORT}!`);
   });
-}).catch((err: any): void => {
-  console.log(err);
+}).catch((err) => {
+  // console.log(err);
   Server.listen(PORT, () => {
     console.log(`[NO MONGODB ACCESS] Listening on PORT ${PORT}!`);
   });

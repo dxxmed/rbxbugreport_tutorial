@@ -2,11 +2,11 @@
   "name": "rbxbugreport_tutorial",
   "version": "1.0.0",
   "description": "test",
-  "main": "index.ts",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node --es-module-specifier-resolution=node ./dist/index.js"
+    "start": "node ./dist/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "mongoose": "^8.16.4"
   },
   "devDependencies": {
+    "@types/node": "^24.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
