@@ -11,8 +11,8 @@ export type ProductSchema = {
   },
   BugReportDetails: {
     type: {
-      Date_Discovered: string,
-      Player_Who_Reported: string,
+      DateDiscovered: string,
+      PlayerWhoReported: string,
     },
     required: [true, "Bug report details are required!"],
   },
@@ -22,9 +22,8 @@ export type ProductSchema = {
   },
   ExploitDetails: {
     type: {
-      Repro_Steps: string,
-      Addtl_Information: string,
-      Vulnerability_Scale: number,
+      RepoSteps: string,
+      AddtlInformation: string,
     },
     required: [false],
   },
