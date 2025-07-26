@@ -2,11 +2,11 @@
   "name": "rbxbugreport_tutorial",
   "version": "1.0.0",
   "description": "test",
-  "main": "./src/dist/index.js",
+  "main": "./dist/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node ./src/dist/index.js"
+    "start": "node ./dist/index.js"
   },
   "author": "",
   "license": "ISC",
