@@ -6,7 +6,7 @@ services:
     previews:
       generation: manual
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: npm run debugStart
     region: oregon
     autoDeployTrigger: commit
     domains:
