@@ -22,7 +22,7 @@ export type ProductSchema = {
   },
   ExploitDetails: {
     type: {
-      Repo_Steps: string,
+      Repro_Steps: string,
       Addtl_Information: string,
       Vulnerability_Scale: number,
     },

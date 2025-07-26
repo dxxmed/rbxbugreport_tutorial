@@ -55,7 +55,7 @@ const Server: http.Server = http.createServer(async (req: http.IncomingMessage, 
             console.log(err);
             res.writeHead(500, {"Content-Type": "application/json"});
             res.end(JSON.stringify({
-                message: "Database Error! The format is {\"title\": string, \"description\": string}!",
+                message: "Database Error! The format is {\"Title\": string, \"Description\": string, etc}!",
             }));
         }
       }
