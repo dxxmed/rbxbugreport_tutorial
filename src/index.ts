@@ -64,9 +64,10 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
       if (req.url.match(/\/bugreports\/(\w+)/)) {
         try {
           const IdToDelete = req.url.split("/")[2];
-          const ProductToDelete: ProductSchema | null = await Product.findByIdAndDelete(IdToDelete);
 
-          console.log(`ID that's been deleted: ${IdToDelete}`);
+          console.log(`ID that's gonna be deleted: ${IdToDelete}`);
+
+          const ProductToDelete: ProductSchema | null = await Product.findByIdAndDelete(IdToDelete);
 
           if (!ProductToDelete) {
             res.writeHead(404, {"Content-Type": "application/json"});
