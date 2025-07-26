@@ -7,6 +7,6 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": false,
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "src/dist"
   }
 }
