@@ -6,7 +6,7 @@ import Product, { ProductSchema } from "./Models/bugreports.js";
 dotenv.config()
 
 const PORT = process.env.PORT || 5000;
-const URI = process.env.URI as string || "mongodb+srv://Owner:imadethe78thadminrole@firstcluster.8dib9ss.mongodb.net/BugReports?retryWrites=true&w=majority&appName=FirstCluster";
+const URI = process.env.URI as string;
 
 function getBody(req: http.IncomingMessage): any | void {
   return new Promise((resolve, reject) => {
