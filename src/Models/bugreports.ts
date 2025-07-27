@@ -22,7 +22,7 @@ export type ProductSchema = {
   },
   ExploitDetails: {
     type: {
-      RepoSteps: string,
+      ReproSteps: string,
       AddtlInformation: string,
     },
     required: [false],
@@ -51,7 +51,7 @@ const Schema: mongoose.Schema<ProductSchema> = new mongoose.Schema({
   },
   ExploitDetails: {
     type: {
-      RepoSteps: String,
+      ReproSteps: String,
       AddtlInformation: String,
     },
     required: [false],
