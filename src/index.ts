@@ -90,7 +90,7 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
   } else if (req.method === "PUT") {
     if (req.url.match(/\/bugreports\/(\w+)/)) {
       try {
-        const Body = getBody(req);
+        const Body: any | void = await getBody(req);
         const IdToPut = req.url.split("/")[2];
 
         console.log(`Id that's gonna get it's data changed: ${IdToPut}!`);
