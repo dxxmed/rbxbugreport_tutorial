@@ -114,6 +114,7 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
         }));
       }
     }
+    return;
   }
   res.writeHead(404, {"Content-Type": "application/json"});
   res.end(JSON.stringify({
