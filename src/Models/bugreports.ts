@@ -40,8 +40,8 @@ const Schema: mongoose.Schema<ProductSchema> = new mongoose.Schema({
   },
   BugReportDetails: {
     type: {
-      Date_Discovered: String,
-      Player_Who_Reported: String,
+      DateDiscovered: String,
+      PlayerWhoReported: String,
     },
     required: [true, "Bug report details are required!"],
   },
@@ -51,9 +51,8 @@ const Schema: mongoose.Schema<ProductSchema> = new mongoose.Schema({
   },
   ExploitDetails: {
     type: {
-      Repo_Steps: String,
-      Addtl_Information: String,
-      Vulnerability_Scale: Number,
+      RepoSteps: String,
+      AddtlInformation: String,
     },
     required: [false],
   }
