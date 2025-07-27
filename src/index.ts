@@ -45,7 +45,7 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
     }
     return;
   } else if (req.method === "POST") {
-      if (req.url.match(/\/bugreports\/(\w+)/)) {
+      if (req.url === "/bugreports") {
         try {
           const Body: any | void = await getBody(req);
           const NewProduct: ProductSchema = await Product.create(Body);
