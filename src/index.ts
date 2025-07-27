@@ -6,7 +6,7 @@ import Product, { ProductSchema } from "./Models/bugreports.js";
 dotenv.config()
 
 const PORT = process.env.PORT || 5000;
-const URI = process.env.URI as string;
+const URI = process.env.URI as string || "mongodb+srv://Owner:imadethe78thadminrole@firstcluster.8dib9ss.mongodb.net/BugReports?retryWrites=true&w=majority&appName=FirstCluster";
 
 function getBody(req: http.IncomingMessage): any | void {
   return new Promise((resolve, reject) => {
@@ -28,13 +28,16 @@ function getBody(req: http.IncomingMessage): any | void {
 const Server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse<http.IncomingMessage>) => {
   if (req.method === "GET") {
     if (req.url === "/") {
+      console.log("Opened the main page!");
       res.writeHead(200, {"Content-Type": "text/plain"});
       res.end("This is the home page!");
+      return
     } else if (req.url === "/bugreports") {
         try {
           const AllProducts: ProductSchema[] = await Product.find({});
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(AllProducts));
+          return;
         } catch(err) {
           console.log(err);
           res.writeHead(500, {"Content-Type": "application/json"});
@@ -51,6 +54,7 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
           const NewProduct: ProductSchema = await Product.create(Body);
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(NewProduct));
+          return;
         } catch(err) {
             console.log(err);
             res.writeHead(500, {"Content-Type": "application/json"});
@@ -64,11 +68,7 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
       if (req.url.match(/\/bugreports\/(\w+)/)) {
         try {
           const IdToDelete = req.url.split("/")[2];
-
-          console.log(`ID that's gonna be deleted: ${IdToDelete}!`);
-
           const ProductToDelete: ProductSchema | null = await Product.findByIdAndDelete(IdToDelete);
-
           if (!ProductToDelete) {
             res.writeHead(404, {"Content-Type": "application/json"});
             res.end(JSON.stringify({
@@ -76,9 +76,9 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
             }));
             return;
           }
-
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(ProductToDelete));
+          return;
         } catch(err) {
         res.writeHead(500, {"Content-Type": "application/json"});
         res.end(JSON.stringify({
@@ -92,11 +92,7 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
       try {
         const Body: any | void = await getBody(req);
         const IdToPut = req.url.split("/")[2];
-
-        console.log(`Id that's gonna get it's data changed: ${IdToPut}!`);
-
-        const ProductToPut: mongoose.Query<mongoose.Document<ProductSchema>, mongoose.Document<ProductSchema>> | null = Product.findByIdAndUpdate(IdToPut, Body);
-
+        const ProductToPut: ProductSchema | null = await Product.findByIdAndUpdate(IdToPut, Body, { new: true });
         if (!ProductToPut) {
           res.writeHead(404, {"Content-Type": "application/json"});
           res.end(JSON.stringify({
@@ -104,9 +100,9 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
           }));
           return;
         }
-
         res.writeHead(200, {"Content-Type": "application/json"});
         res.end(JSON.stringify(ProductToPut));
+        return;
       } catch(err) {
         res.writeHead(500, {"Content-Type": "application/json"});
         res.end(JSON.stringify({
