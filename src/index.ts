@@ -1,6 +1,6 @@
 import http from "http";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import Product, { ProductSchema } from "./Models/bugreports.js";
 
 dotenv.config()
@@ -65,7 +65,7 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
         try {
           const IdToDelete = req.url.split("/")[2];
 
-          console.log(`ID that's gonna be deleted: ${IdToDelete}`);
+          console.log(`ID that's gonna be deleted: ${IdToDelete}!`);
 
           const ProductToDelete: ProductSchema | null = await Product.findByIdAndDelete(IdToDelete);
 
@@ -87,6 +87,33 @@ const Server = http.createServer(async (req: http.IncomingMessage, res: http.Ser
       }
     }
     return;
+  } else if (req.method === "PUT") {
+    if (req.url.match(/\/bugreports\/(\w+)/)) {
+      try {
+        const Body = getBody(req);
+        const IdToPut = req.url.split("/")[2];
+
+        console.log(`Id that's gonna get it's data changed: ${IdToPut}!`);
+
+        const ProductToPut: mongoose.Query<mongoose.Document<ProductSchema>, mongoose.Document<ProductSchema>> | null = Product.findByIdAndUpdate(IdToPut, Body);
+
+        if (!ProductToPut) {
+          res.writeHead(404, {"Content-Type": "application/json"});
+          res.end(JSON.stringify({
+            message: "Product to put doesn't exist!",
+          }));
+          return;
+        }
+
+        res.writeHead(200, {"Content-Type": "application/json"});
+        res.end(JSON.stringify(ProductToPut));
+      } catch(err) {
+        res.writeHead(500, {"Content-Type": "application/json"});
+        res.end(JSON.stringify({
+          message: `Database error! ${err}`,
+        }));
+      }
+    }
   }
   res.writeHead(404, {"Content-Type": "application/json"});
   res.end(JSON.stringify({
