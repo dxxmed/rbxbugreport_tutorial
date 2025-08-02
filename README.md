@@ -1,4 +1,6 @@
 # rbxbugreport_tutorial
 devforum bug report tutorial.
 
-check it out (I'll probably put the link here later ... or not if I forget)
+check it out here:
+
+https://devforum.roblox.com/t/creating-a-bug-report-notifier/3856136?u=doomcolp
